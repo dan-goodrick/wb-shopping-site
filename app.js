@@ -20,9 +20,6 @@ nunjucks.configure("views", {
   express: app,
 });
 
-function getAnimalDetails(animalId) {
-  return stuffedAnimalData[animalId];
-}
 
 app.get("/", (req, res) => {
   res.render("index.html");
@@ -30,14 +27,14 @@ app.get("/", (req, res) => {
 
 app.get("/all-animals", (req, res) => {
   res.render("all-animals.html.njk", {
-    animals: Object.values(stuffedAnimalData),
+    animals: Object.values(stuffedAnimalData), name:req.session.name,
   });
 });
 
 app.get("/animal-details/:animalId", (req, res) => {
   const { animalId } = req.params;
   const animal = stuffedAnimalData[animalId];
-  res.render("animal-details.html.njk", { animal: animal });
+  res.render("animal-details.html.njk", { animal: animal, name:req.session.name,});
 });
 
 app.get("/add-to-cart/:animalId", (req, res) => {
@@ -63,8 +60,7 @@ app.get("/cart", (req, res) => {
     arr.push(animal);
     total += animal.subtotal;
   }
-  console.log(cart, arr, total);
-  res.render("cart.html.njk", { arr, total });
+  res.render("cart.html.njk", { arr, total, name:req.session.name});
 });
 
 app.get("/checkout", (req, res) => {
@@ -80,6 +76,7 @@ app.get("/login", (req, res) => {
 app.post("/process-login", (req, res) => {
   for (const { username, password, name } of users) {
     if (req.body.username === username && req.body.password === password) {
+      req.session.name = name
       return res.redirect("/all-animals");
     }
   }

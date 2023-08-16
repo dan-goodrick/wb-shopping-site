@@ -1,5 +1,9 @@
 {% extends 'base.html.njk' %}
 
+{% block user %}
+  <h1>Hi: {{name}}</h1>
+{% endblock %}
+
 {% block body %}
   <table class="table table-striped mt-3">
     <thead>
