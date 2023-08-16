@@ -1,0 +1,29 @@
+{% extends 'base.html.njk' %}
+
+{% block body %}
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Animal Names</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for animal in arr %}
+        <tr>
+          <td>{{animal.name}}</td>
+          <td>{{animal.quantity}}</td>
+          <td>{{animal.price}}</td>
+          <td>${{animal.subtotal.toFixed(2)}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Total: ${{total.toFixed(2)}}</h3>
+
+<a href="/checkout" class="btn btn-large btn-primary">Check Out</a>
+
+{% endblock %}
